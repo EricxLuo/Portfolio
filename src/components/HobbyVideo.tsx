@@ -2,7 +2,7 @@ import { motion, useScroll, useSpring, useTransform } from "motion/react";
 import { useEffect, useRef } from "react";
 import SectionDivider from "./SectionDivider";
 
-const videoSource = "/videos/editing%20collage.mp4";
+const videoSource = new URL("videos/editing%20collage.mp4", document.baseURI).toString();
 
 export default function HobbyVideo() {
   const sectionRef = useRef<HTMLElement>(null);
