@@ -1,0 +1,31 @@
+node_modules/
+dist/
+build/
+coverage/
+
+# Local environment and secrets
+.env
+.env.*
+*.local
+*.secret
+*.key
+*.pem
+*.p12
+*.pfx
+credentials.json
+secrets.json
+
+# Local tooling and deployment state
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.azure/
+.vercel/
+.netlify/
+
+# Logs, caches, and OS files
+.DS_Store
+*.log
+.cache/
+.eslintcache
+*.tsbuildinfo
