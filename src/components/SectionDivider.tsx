@@ -2,35 +2,23 @@ import { motion } from "motion/react";
 
 interface SectionDividerProps {
   label: string;
+  index?: string;
 }
 
-export default function SectionDivider({ label }: SectionDividerProps) {
+export default function SectionDivider({ label, index }: SectionDividerProps) {
   return (
-    <div className="relative left-1/2 flex h-[18vh] w-screen -translate-x-1/2 items-center overflow-hidden">
-      <div className="flex w-full items-center gap-6 px-6 md:gap-10 md:px-12 lg:px-20">
+    <div className="flex min-h-[24vh] w-full items-end overflow-hidden border-b border-black/20 pb-7 pt-24">
+      <div className="flex w-full items-end justify-between gap-6">
         <motion.span
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: false, margin: "-20%" }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          className="h-px flex-1 origin-right bg-black"
-        />
-        <motion.h2
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: "-20%" }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl font-medium tracking-tighter md:text-6xl"
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display text-5xl font-black uppercase leading-none tracking-[-0.06em] md:text-7xl"
         >
           {label}
-        </motion.h2>
-        <motion.span
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: false, margin: "-20%" }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          className="h-px flex-1 origin-left bg-black"
-        />
+        </motion.span>
+        {index && <span className="pb-1 font-mono text-sm text-black/45">/{index}</span>}
       </div>
     </div>
   );

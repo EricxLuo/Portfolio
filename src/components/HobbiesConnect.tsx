@@ -1,79 +1,40 @@
-import { motion } from "motion/react";
-import { Github, Linkedin, Mail } from "lucide-react";
-
-const links = [
-  { Icon: Github, label: "GitHub", href: "https://github.com/EricxLuo" },
-  { Icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/eric-luo-a56859276/" },
-  { Icon: Mail, label: "Email", href: "mailto:ericluoo12@gmail.com" },
-];
+import { motion, useScroll, useSpring, useTransform } from "motion/react";
+import { useRef } from "react";
 
 export default function HobbiesConnect() {
-  return (
-    <section className="flex min-h-screen flex-col justify-between py-24 md:py-32">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, margin: "-15%" }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <p className="mb-8 text-sm font-medium uppercase tracking-[0.3em] text-gray-500">
-          Outside of work
-        </p>
-        <h2 className="mb-10 text-5xl font-medium leading-none tracking-tighter md:text-7xl">
-          Other hobbies.
-        </h2>
-        <h3 className="text-3xl font-medium tracking-tight md:text-5xl">Gym</h3>
-        <p className="mt-4 max-w-2xl text-xl leading-relaxed text-gray-600 md:text-2xl">
-          I enjoy going to the gym and prioritize maintaining my physical health.
-        </p>
-      </motion.div>
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24 });
+  const plateRotate = useTransform(smoothProgress, [0, 0.4, 1], [-180, 0, 360]);
+  const plateY = useTransform(smoothProgress, [0, 1], [90, -90]);
 
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, margin: "-15%" }}
-        transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-        className="border-t border-gray-200 pt-12"
-      >
-        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <h2 className="text-5xl font-medium leading-none tracking-tighter md:text-7xl">
-            Let&apos;s connect
-          </h2>
+  return (
+    <section ref={sectionRef} id="gym" className="gym-section relative min-h-[145vh] overflow-hidden bg-[#f2f0ea] text-[#121212]">
+      <div className="sticky top-0 grid min-h-screen items-center gap-12 overflow-hidden px-5 py-24 md:px-10 lg:grid-cols-[0.8fr_1.2fr] lg:px-16">
+        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-15%" }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }} className="relative z-10">
+          <h3 className="font-display text-[27vw] font-black uppercase leading-[0.7] tracking-[-0.09em] sm:text-[20vw] lg:text-[13vw]">Gym.</h3>
+          <p className="mt-12 max-w-2xl text-xl leading-relaxed text-black/60 md:text-3xl">Training is where I reset: showing up, tracking progress, and getting a little stronger every session.</p>
+        </motion.div>
+
+        <div className="relative flex min-h-[20rem] items-center justify-center md:min-h-[30rem]">
+          <motion.div style={{ rotate: plateRotate, y: plateY }} className="weight-plate" aria-label="A 45 pound weight plate rotating as the page scrolls">
+            <svg className="plate-markings" viewBox="0 0 400 400" aria-hidden="true">
+              <defs>
+                <path id="plate-top-arc" d="M 66 200 A 134 134 0 0 1 334 200" />
+                <path id="plate-bottom-arc" d="M 334 200 A 134 134 0 0 1 66 200" />
+              </defs>
+              <text className="plate-curved-text"><textPath href="#plate-top-arc" startOffset="50%" textAnchor="middle">ERIC LUO</textPath></text>
+              <text className="plate-curved-text"><textPath href="#plate-bottom-arc" startOffset="50%" textAnchor="middle">ERIC LUO</textPath></text>
+              <g className="plate-weight-text" textAnchor="middle">
+                <text x="105" y="205">45</text>
+                <text className="plate-unit" x="105" y="230">LB</text>
+                <text x="295" y="205">45</text>
+                <text className="plate-unit" x="295" y="230">LB</text>
+              </g>
+            </svg>
+          </motion.div>
         </div>
-        <div className="mt-10 flex flex-wrap justify-center gap-10 text-center md:gap-16">
-          {links.map(({ Icon, label, href }) => (
-            <div key={label} className="flex flex-col items-center gap-3">
-              <a
-                href={href}
-                aria-label={label}
-                className="text-gray-400 transition-colors hover:text-black"
-              >
-                <Icon size={42} strokeWidth={1.5} />
-              </a>
-              {label === "GitHub" && (
-                <a href={href} className="text-lg text-gray-500 transition-colors hover:text-black">
-                  github.com/EricxLuo
-                </a>
-              )}
-              {label === "Email" && (
-                <a href={href} className="text-lg text-gray-500 transition-colors hover:text-black">
-                  ericluoo12@gmail.com
-                </a>
-              )}
-              {label === "LinkedIn" && (
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-lg text-gray-500 transition-colors hover:text-black"
-                >
-                  linkedin.com/in/eric-luo-a56859276
-                </a>
-              )}
-            </div>
-          ))}
-        </div>
-      </motion.div>
+      </div>
     </section>
   );
 }
